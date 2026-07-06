@@ -1,3 +1,99 @@
+# Enhanced Calculator Command Line Application
+A feature-rich command-line calculator built with Python, implementing multiple
+design patterns including Command, Strategy, Observer, Memento, Factory, and Decorator.
+
+---
+
+## Features
+
+- Basic arithmetic: addition, subtraction, multiplication, division
+- Advanced operations: power, root, modulus, integer division, percentage, absolute difference
+- Calculation history with save/load to CSV
+- Undo/redo functionality
+- Color-coded output using Colorama for better readability
+- Dynamic help menu using Decorator Pattern
+- Logging to file
+- CI/CD with GitHub Actions
+
+---
+
+## Usage
+
+Start the calculator:
+```bash
+python main.py
+```
+
+### Available Commands
+
+| Command | Description |
+|---|---|
+| `add` | Add two numbers |
+| `subtract` | Subtract two numbers |
+| `multiply` | Multiply two numbers |
+| `divide` | Divide two numbers |
+| `power` | Raise a number to a power |
+| `root` | Calculate nth root of a number |
+| `modulus` | Calculate remainder of division |
+| `int_div` | Perform integer division |
+| `percentage` | Calculate percentage of a number |
+| `abs_diff` | Calculate absolute difference |
+| `history` | Show calculation history |
+| `clear` | Clear calculation history |
+| `undo` | Undo last calculation |
+| `redo` | Redo last undone calculation |
+| `save` | Save history to file |
+| `load` | Load history from file |
+| `exit` | Exit the calculator |
+
+---
+
+## Testing
+
+### Run all tests
+```bash
+pytest
+```
+
+---
+
+## Logging
+
+Logs are automatically written to `logs/calculator.log`.
+
+---
+
+## CI/CD
+
+The project uses GitHub Actions to automate testing and ensure code 
+quality on every push or pull request to the `main` branch.
+
+### Workflow
+
+File: `.github/workflows/main.yml`
+
+The workflow runs automatically and performs the following steps:
+
+1. **Checkout code** — pulls the latest code from the repository
+2. **Set up Python 3.12** — installs the correct Python version
+3. **Install dependencies** — runs `pip install -r requirements.txt`
+4. **Run tests** — executes pytest with coverage reporting
+5. **Enforce coverage** — fails the build if coverage drops below 90%
+
+### Triggering the workflow
+
+The workflow triggers on:
+```yaml
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+---
+
 # 📦 Project Setup
 
 ---
