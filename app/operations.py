@@ -7,6 +7,28 @@ from decimal import Decimal
 from typing import Dict
 from app.exceptions import ValidationError
 
+#-------------------------------
+# Decorator
+#-------------------------------
+def register_operation(description: str):
+    """
+    Decorator to register an operation class with a description.
+
+    This decorator adds a 'description' attribute to the decorated operation class,
+    allowing for easy identification and documentation of the operation's purpose.
+
+    Args:
+        description (str): A brief description of the operation.
+    """
+    def decorator(cls):
+        cls.description = description
+        return cls
+    return decorator
+
+
+#-------------------------------
+# Base class
+#------------------------------
 
 class Operation(ABC):
     """
@@ -62,7 +84,11 @@ class Operation(ABC):
         """
         return self.__class__.__name__
 
+#-------------------------------
+# Concrete operation classes
+#-------------------------------
 
+@register_operation("Add two numbers")
 class Addition(Operation):
     """
     Addition operation implementation.
@@ -85,6 +111,7 @@ class Addition(Operation):
         return a + b
 
 
+@register_operation("Subtract two numbers")
 class Subtraction(Operation):
     """
     Subtraction operation implementation.
@@ -107,6 +134,7 @@ class Subtraction(Operation):
         return a - b
 
 
+@register_operation("Multiply two numbers")
 class Multiplication(Operation):
     """
     Multiplication operation implementation.
@@ -129,6 +157,7 @@ class Multiplication(Operation):
         return a * b
 
 
+@register_operation("Divide two numbers")
 class Division(Operation):
     """
     Division operation implementation.
@@ -168,6 +197,7 @@ class Division(Operation):
         return a / b
 
 
+@register_operation("Raise to power")
 class Power(Operation):
     """
     Power (exponentiation) operation implementation.
@@ -207,6 +237,7 @@ class Power(Operation):
         return Decimal(pow(float(a), float(b)))
 
 
+@register_operation("Calculate nth root")
 class Root(Operation):
     """
     Root operation implementation.
@@ -248,6 +279,7 @@ class Root(Operation):
         self.validate_operands(a, b)
         return Decimal(pow(float(a), 1 / float(b)))
 
+@register_operation("Calculate modulus")
 class Modulus(Operation):
     """
     Modulus operation implementation.
@@ -286,6 +318,7 @@ class Modulus(Operation):
         self.validate_operands(a, b)
         return a % b
 
+@register_operation("Perform integer division")
 class IntegerDivision(Operation):
     """
     Integer Division operation implementation.
@@ -324,6 +357,7 @@ class IntegerDivision(Operation):
         self.validate_operands(a, b)
         return Decimal(int(a / b))
 
+@register_operation("Calculate percentage")
 class Percentage(Operation):
     """
     Percentage operation implementation.
@@ -362,6 +396,7 @@ class Percentage(Operation):
         self.validate_operands(a, b)
         return (a / b) * Decimal(100)
         
+@register_operation("Calculate absolute difference")
 class AbsoluteDifference(Operation):
     """
     Absolute Difference operation implementation.

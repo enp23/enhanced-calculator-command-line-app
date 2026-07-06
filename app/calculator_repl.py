@@ -38,7 +38,10 @@ def calculator_repl():
                 if command == 'help':
                     # Display available commands
                     print(f"{Fore.CYAN}\nAvailable commands:")
-                    print(f"{Fore.CYAN}  add, subtract, multiply, divide, power, root, modulus, int_div, percentage, abs_diff   - Perform calculations")
+                    # list commands dynamically from OperationFactory using decorator description
+                    for name, cls in OperationFactory._operations.items():
+                        print(f"{Fore.CYAN}  {name} - {cls.description}")
+                    # additional commands
                     print(f"{Fore.CYAN}  history - Show calculation history")
                     print(f"{Fore.CYAN}  clear - Clear calculation history")
                     print(f"{Fore.CYAN}  undo - Undo the last calculation")
