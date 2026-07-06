@@ -7,6 +7,7 @@ import logging
 import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
+from unittest import result
 
 import pandas as pd
 
@@ -204,6 +205,9 @@ class Calculator:
 
             # Get result from command object
             result = calculation.result
+
+            # Log successful operation
+            logging.info(f"Operation performed: {str(self.operation_strategy)}({validated_a}, {validated_b}) = {result}")
 
             # Save the current state to the undo stack before making changes
             self.undo_stack.append(CalculatorMemento(self.history.copy()))
