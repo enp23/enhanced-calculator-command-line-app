@@ -372,6 +372,7 @@ class Calculator:
             bool: True if an operation was undone, False if there was nothing to undo.
         """
         if not self.undo_stack:
+            logging.warning("Undo attempted but nothing to undo")
             return False
         # Pop the last state from the undo stack
         memento = self.undo_stack.pop()
@@ -379,6 +380,7 @@ class Calculator:
         self.redo_stack.append(CalculatorMemento(self.history.copy()))
         # Restore the history from the memento
         self.history = memento.history.copy()
+        logging.info("Operation undone successfully")
         return True
 
     def redo(self) -> bool:
@@ -391,6 +393,7 @@ class Calculator:
             bool: True if an operation was redone, False if there was nothing to redo.
         """
         if not self.redo_stack:
+            logging.warning("Redo attempted but nothing to redo")
             return False
         # Pop the last state from the redo stack
         memento = self.redo_stack.pop()
@@ -398,4 +401,5 @@ class Calculator:
         self.undo_stack.append(CalculatorMemento(self.history.copy()))
         # Restore the history from the memento
         self.history = memento.history.copy()
+        logging.info("Operation redone successfully")
         return True
