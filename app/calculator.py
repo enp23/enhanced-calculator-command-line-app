@@ -195,15 +195,15 @@ class Calculator:
             validated_a = InputValidator.validate_number(a, self.config)
             validated_b = InputValidator.validate_number(b, self.config)
 
-            # Execute the operation strategy
-            result = self.operation_strategy.execute(validated_a, validated_b)
-
             # Create a new Calculation instance with the operation details
             calculation = Calculation(
                 operation=str(self.operation_strategy),
                 operand1=validated_a,
                 operand2=validated_b
             )
+
+            # Get result from command object
+            result = calculation.result
 
             # Save the current state to the undo stack before making changes
             self.undo_stack.append(CalculatorMemento(self.history.copy()))
