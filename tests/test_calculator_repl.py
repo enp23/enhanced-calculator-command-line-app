@@ -1,8 +1,19 @@
 import pytest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
+from colorama import Fore
 from app.calculator_repl import calculator_repl
 from app.exceptions import OperationError
 
+@pytest.fixture(autouse=True)
+def disable_color():
+    """Fixture to disable color output during tests for consistent assertions."""
+    with patch('app.calculator_repl.Fore.GREEN', ''), \
+         patch('app.calculator_repl.Fore.RED', ''), \
+         patch('app.calculator_repl.Fore.YELLOW', ''), \
+         patch('app.calculator_repl.Fore.CYAN', ''), \
+         patch('app.calculator_repl.Fore.WHITE', ''):
+        yield
+        
 #----------------------------------------------------------------
 # Test REPL Commands (using patches for input/output handling)
 #----------------------------------------------------------------
