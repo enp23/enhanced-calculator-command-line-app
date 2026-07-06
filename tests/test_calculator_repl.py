@@ -31,6 +31,10 @@ def test_calculator_repl_help(mock_print, mock_input):
     ("divide",   "6", "2", "\nResult: 3"),   # division
     ("power",    "2", "3", "\nResult: 8"),   # power
     ("root",     "16","2", "\nResult: 4"),   # root
+    ("modulus",  "10","3", "\nResult: 1"),   # modulus
+    ("int_div",   "7", "2", "\nResult: 3"),  # integer division
+    ("percentage", "50", "200", "\nResult: 25"), # percentage
+    ("abs_diff",  "5", "3", "\nResult: 2"),   # absolute difference
 ])
 @patch('builtins.print')
 def test_repl_arithmetic_operations(mock_print, command, a, b, expected_result):

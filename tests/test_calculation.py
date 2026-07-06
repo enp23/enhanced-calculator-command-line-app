@@ -5,8 +5,6 @@ from app.calculation import Calculation
 from app.exceptions import OperationError
 import logging
 
-# Updated below to parameterized tests
-
 #------------------------------------------------------
 # Valid arithmetic operations
 #------------------------------------------------------
@@ -18,6 +16,10 @@ import logging
     ("Division",       "8",  "2",  "4"),   # basic division
     ("Power",          "2",  "3",  "8"),   # basic power
     ("Root",           "16", "2",  "4"),   # basic root
+    ("Modulus",        "10", "3",  "1"),   # basic modulus
+    ("IntegerDivision", "7",  "2",  "3"),   # basic integer division
+    ("Percentage",     "50", "200", "25"), # percentage calculation
+    ("AbsoluteDifference", "5",  "3",  "2"),   # absolute difference
 ])
 def test_valid_operations(operation, operand1, operand2, expected):
     """Verify that valid arithmetic operations produce the correct result."""

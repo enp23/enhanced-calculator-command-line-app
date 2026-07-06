@@ -11,6 +11,10 @@ from app.operations import (
     Division,
     Power,
     Root,
+    Modulus,
+    IntegerDivision,
+    Percentage,
+    AbsoluteDifference,
     OperationFactory,
 )
 #--------------------------------------------
@@ -151,6 +155,75 @@ def test_root_invalid(a, b, error, message):
     with pytest.raises(error, match=message):
         Root().execute(Decimal(a), Decimal(b))
 
+#-----------------------------
+# Modulus
+#-----------------------------
+@pytest.mark.parametrize("a, b, expected", [
+    ("10", "3", "1"),   # positive numbers
+    ("-10", "3", "-1"), # negative dividend
+    ("10", "-3", "1"),  # negative divisor
+    ("-10", "-3", "-1"),# both negative
+])
+def test_modulus_valid(a, b, expected): 
+    """Verify modulus produces correct results for valid inputs."""
+    result = Modulus().execute(Decimal(a), Decimal(b))
+    assert result == Decimal(expected)   
+
+def test_modulus_zero_divisor():
+    """Verify modulus raises ValidationError when divisor is zero."""
+    with pytest.raises(ValidationError, match="Divisor cannot be zero"):
+        Modulus().execute(Decimal('10'), Decimal('0'))
+#-----------------------------
+# Integer Division
+#-----------------------------
+@pytest.mark.parametrize("a, b, expected", [
+    ("7", "2", "3"),    # positive numbers
+    ("-7", "2", "-3"),  # negative dividend
+    ("7", "-2", "-3"),  # negative divisor
+    ("-7", "-2", "3"),  # both negative
+])
+def test_integer_division_valid(a, b, expected):
+    """Verify integer division produces correct results for valid inputs."""
+    result = IntegerDivision().execute(Decimal(a), Decimal(b))
+    assert result == Decimal(expected)
+
+def test_integer_division_zero_divisor():
+    with pytest.raises(ValidationError, match="Divisor cannot be zero"):
+        IntegerDivision().execute(Decimal('10'), Decimal('0'))
+
+#-----------------------------
+# Percentage
+#-----------------------------
+@pytest.mark.parametrize("a, b, expected", [
+    ("50", "200", "25"),   # basic percentage
+    ("25", "100", "25"),   # another basic percentage
+    ("0", "100", "0"),     # zero percentage
+])
+def test_percentage_valid(a, b, expected):
+    """Verify percentage produces correct results for valid inputs."""
+    result = Percentage().execute(Decimal(a), Decimal(b))
+    assert result == Decimal(expected)
+
+def test_percentage_zero_total():
+    """Verify percentage raises ValidationError when total is zero."""
+    with pytest.raises(ValidationError, match="Total value cannot be zero"):
+        Percentage().execute(Decimal('50'), Decimal('0'))
+#-----------------------------
+# Absolute Difference
+#-----------------------------
+@pytest.mark.parametrize("a, b, expected", [
+    ("5", "3", "2"),       # positive numbers
+    ("3", "5", "2"),       # reversed order
+    ("-5", "-3", "2"),     # negative numbers
+    ("-3", "-5", "2"),     # reversed negative order
+    ("5", "-3", "8"),      # mixed signs
+    ("-3", "5", "8"),      # reversed mixed signs
+])
+def test_absolute_difference_valid(a, b, expected):
+    """Verify absolute difference produces correct results for valid inputs."""
+    result = AbsoluteDifference().execute(Decimal(a), Decimal(b))
+    assert result == Decimal(expected) 
+
 #---------------------------
 #  OperationFactory 
 #----------------------------
@@ -162,6 +235,10 @@ def test_root_invalid(a, b, error, message):
     ("divide",   Division),
     ("power",    Power),
     ("root",     Root),
+    ("modulus",  Modulus),
+    ("int_div",  IntegerDivision),
+    ("percentage", Percentage),
+    ("abs_diff", AbsoluteDifference),   
 ])
 def test_factory_creates_valid_operations(op_name, op_class):
     """Verify factory creates the correct operation instance for each valid name."""
@@ -175,6 +252,10 @@ def test_factory_creates_valid_operations(op_name, op_class):
     ("DIVIDE",   Division),
     ("POWER",    Power),
     ("ROOT",     Root),
+    ("MODULUS",  Modulus),
+    ("INT_DIV",  IntegerDivision),
+    ("PERCENTAGE", Percentage),
+    ("ABS_DIFF", AbsoluteDifference),
 ])
 def test_factory_case_insensitive(op_name, op_class):
     """Verify factory handles uppercase operation names correctly."""

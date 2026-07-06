@@ -139,6 +139,11 @@ def test_set_operation(calculator):
     ("multiply", 4, 3, Decimal("12")),  # multiplication
     ("divide",   6, 2, Decimal("3")),   # division
     ("power",    2, 3, Decimal("8")),   # power
+    ("root",     16, 2, Decimal("4")),  # root
+    ("modulus",  10, 3, Decimal("1")),   # modulus
+    ("int_div",   7, 2, Decimal("3")),    # integer division
+    ("percentage", 50, 200, Decimal("25")), # percentage
+    ("abs_diff",  5, 3, Decimal("2")),     # absolute difference 
 ])
 def test_perform_operation_valid(calculator, op_name, a, b, expected):
     """Verify that valid operations produce the correct result."""
